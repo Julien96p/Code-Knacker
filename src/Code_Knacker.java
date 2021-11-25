@@ -5,16 +5,16 @@ public class Code_Knacker {
 	public static void main(String[] arcs) {
 
 		final int LENGTH = 4;
-		final int POSSIBLE =6;
+		final int POSSIBLE = 6;
 		int[] pin = new int[LENGTH];
 		Random rnd = new Random();
 		boolean stopcondition = false;
+		boolean runcondition = true;
+		int d = 0;
 
 		// Erstellt den Pin via Zufall mit den Zahlen 1 - 6
 		for (int i = 0; i < pin.length; i++) {
-
 			pin[i] = rnd.nextInt(POSSIBLE + 1);
-
 			if (pin[i] == 0) {
 				i--;
 			}
@@ -31,10 +31,9 @@ public class Code_Knacker {
 		}
 
 		while (stopcondition == false) {
-			
+
 			int r = 0;
 			int k = 0;
-			int d = 0;
 
 			String Nutzer_Eingabe = nutzereingabeFordern();
 
@@ -46,21 +45,22 @@ public class Code_Knacker {
 				// Kontrolliert wie viele Richtige Zahlen vorhanden sind
 
 				for (int i = 0; i < pin.length; i++) {
+					while (runcondition) {
 
-					for (int j = 0; j < pin.length; j++) {
-
-						if (Nutzer_Eingabe.charAt(i) - '0' == pin[j]) {
+						if (Nutzer_Eingabe.charAt(i) - '0' == pin[d]) {
 							r++;
+							runcondition = false;
 
 						}
-//						if (pin[i] != pin[j]) {
-//							d--;
-//						}
-
+						if(d == pin.length) {
+							runcondition = false;
+						}
+						
+						d++;
 					}
-
+					runcondition = true;
+					d = 0;
 				}
-				System.out.println(d);
 
 				// Kontrolliert wie viele Zahlen auch auf dem korrekten Platz sind.
 				for (int i = 0; i < pin.length; i++) {
@@ -70,7 +70,7 @@ public class Code_Knacker {
 
 				}
 
-				System.out.print(Nutzer_Eingabe + " " +  r + "/" + k + "\n");
+				System.out.print(Nutzer_Eingabe + " " + r + "/" + k + "\n");
 
 				if (k == pin.length) {
 					stopcondition = true;
@@ -85,6 +85,7 @@ public class Code_Knacker {
 			}
 
 		}
+
 	}
 
 	public static String nutzereingabeFordern() {
